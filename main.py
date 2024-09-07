@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
+import threading
+import libtorrent as lt
+import time
 class TorrentClient:
     def __init__(self, root):
         #Base
@@ -16,6 +19,9 @@ class TorrentClient:
         self.torrent_path = tk.StringVar()
         tk.Entry(self.center_frame, textvariable=self.torrent_path,width=50).pack(pady=10)
         tk.Button(self.center_frame, text="Open Torrent", command=self.open_torrent).pack(pady=5)
+        self.download_path = tk.StringVar()
+        tk.Entry(self.center_frame, textvariable=self.download_path,width=50).pack(pady=10)
+        tk.Button(self.center_frame, text="Select Download Location", command=self.start_download_torrent).pack(pady=5)
         #Start Button
         self.start_button = tk.Button(self.center_frame, text="Start Download", command=self.start_download)
         self.start_button.pack(pady=5)
@@ -29,7 +35,32 @@ class TorrentClient:
             self.torrent_path.set(file_path)
     
     def start_download(self):
-        messagebox.showinfo("Start Download","Download functionality not implemented yet")
+        torrent_file = self.torrent_path.get()
+        if not torrent_file:
+            messagebox.showerror("Error", "Please select a torrent file")
+            return
+        threading.Thread(target=self.start_download_torrent, args=(torrent_file,),daemon=True).start()
+    
+    def start_download_torrent(self, torrent_file):
+        self.status_label.config(text="Status: Initializing...")
+        session = lt.session()
+        session.listen_on(6881, 6891)
+        info = lt.torrent_info(torrent_file)
+        params = {
+            'save_path': self.download_path.get() ,
+            'storage_mode': lt.storage_mode_t(2),
+            'ti': info
+        }
+        handle = session.add_torrent(params)
+        
+        while not handle.is_seed():
+            s = handle.status()
+            self.status_label.config(
+                text = f"Status: Downloading... {s.progress * 100:.2f}% complete,"
+                f"Peers: {s.num_peers}, Download rate: {s.download_rate / 1000:.2f} kB/s")
+            time.sleep(1)
+        self.status_label.config(text="Status: Download complete!")
+        messagebox.showinfo("Success", "Download complete!")
 
 def main():
     root = tk.Tk()
