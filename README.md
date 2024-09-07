@@ -1,4 +1,4 @@
-# Python Torrent Client
+# Torrentish
 
 This is a simple Python-based Torrent Client built using `tkinter` for the GUI and `libtorrent` for handling torrent downloads.
 
