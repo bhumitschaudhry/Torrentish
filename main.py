@@ -7,12 +7,12 @@ class TorrentClient:
     def __init__(self, root):
         #Base
         self.root = root
-        self.root.title("Python Torrent Client")
+        self.root.title("Torrentish")
         self.root.geometry("640x360")
         self.center_frame = tk.Frame(self.root)
         self.center_frame.pack(expand=True)
         #File Selector
-        self.label1 = tk.Label(self.center_frame, text="Torrent Client",font=("Arial",20,"bold"))
+        self.label1 = tk.Label(self.center_frame, text="Torrentish",font=("Arial",20,"bold"))
         self.label1.pack(pady=15)
         self.label2 = tk.Label(self.center_frame, text="Select a file:",font=("Arial"))
         self.label2.pack(pady=10)
