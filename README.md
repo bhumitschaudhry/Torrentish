@@ -25,5 +25,6 @@ This is a simple Python-based Torrent Client built using `tkinter` for the GUI a
 - **For Linux**: Execute the `main.py` script
 
 ## Screenshots
-![image](https://github.com/user-attachments/assets/9517dc59-84b9-4a2a-8e6c-0eebe74218f9)
+![image](https://github.com/user-attachments/assets/10a2ab91-dceb-4579-a186-11197bc7ced7)
+
 
