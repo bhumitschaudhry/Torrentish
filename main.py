@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, ttk
+from ttkthemes import ThemedTk
 import threading
 import libtorrent as lt
 import time
@@ -9,6 +10,8 @@ class TorrentClient:
         self.root = root
         self.root.title("Torrentish")
         self.root.geometry("640x360")
+        # Apply Arc theme
+        self.root.set_theme("arc")
         self.center_frame = tk.Frame(self.root)
         self.center_frame.pack(expand=True)
         #File Selector
@@ -63,7 +66,7 @@ class TorrentClient:
         messagebox.showinfo("Success", "Download complete!")
 
 def main():
-    root = tk.Tk()
+    root = ThemedTk(theme="arc")
     app = TorrentClient(root)
     root.mainloop()
 
